@@ -6,6 +6,16 @@ class AssetsService {
         Asset(id: 3, tag: 'GSPC', name: 'S&P500', iconName: 'sp1', price: 125.4),
         Asset(id: 4, tag: 'AAPL', name: 'Apple', iconName: 'apple14', price: 1021.40)
       ];
+
+  static List<int> favoriteAssetIds = [];
+
+  markAsFavorite(int assetId) {
+    favoriteAssetIds.add(assetId);
+  }
+
+  removeFavorite(int assetId) {
+    favoriteAssetIds.removeWhere((element) => element == assetId);
+  }
 }
 
 class Asset {

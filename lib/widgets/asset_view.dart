@@ -4,7 +4,9 @@ import 'package:nfstock_test/services/currency_service.dart';
 
 class AssetView extends StatelessWidget {
   final Asset asset;
-  const AssetView({super.key, required this.asset});
+  final bool isFavorite;
+  final Function onFavorite;
+  const AssetView({super.key, required this.asset, this.isFavorite = false, required this.onFavorite});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,9 @@ class AssetView extends StatelessWidget {
                 Text(asset.price.toString(), style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500))
               ],
             ),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.star_border_outlined))
+            IconButton(
+                onPressed: () => onFavorite.call(),
+                icon: Icon(isFavorite ? Icons.star : Icons.star_border_outlined, color: Colors.grey.shade400))
           ]),
           const SizedBox(height: 16),
           Padding(
