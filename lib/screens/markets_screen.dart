@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nfstock_test/common/constants.dart';
 import 'package:nfstock_test/common/strings.dart';
-import 'package:nfstock_test/services/currency_service.dart';
+import 'package:nfstock_test/services/assets_service.dart';
 import 'package:nfstock_test/widgets/asset_view.dart';
 
 class MarketsScreen extends StatefulWidget {
