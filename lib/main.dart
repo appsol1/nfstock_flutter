@@ -35,9 +35,28 @@ class MarketsScreen extends StatefulWidget {
 
 class _MarketsScreenState extends State<MarketsScreen> {
   String selectedButton = "all";
-  final assets = AssetsService().getAssets();
+  final allAssets = AssetsService().getAssets();
+  List<Asset> filteredAssets = [];
 
   Color getButtonColor(String type) => selectedButton == type ? Constants.primaryColor : Colors.white54;
+
+  onSearch(String value) {
+    final query = value.toLowerCase();
+    setState(() {
+      filteredAssets = value.isEmpty
+          ? allAssets
+          : allAssets
+              .where((element) =>
+                  element.tag.toLowerCase().startsWith(query) || element.name.toLowerCase().startsWith(query))
+              .toList();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    filteredAssets = allAssets;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +69,12 @@ class _MarketsScreenState extends State<MarketsScreen> {
       body: Column(children: [
         Container(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            child: const CupertinoSearchTextField(
+            child: CupertinoSearchTextField(
               placeholder: Strings.searchBarHintText,
-              placeholderStyle: TextStyle(fontSize: 14, color: CupertinoColors.inactiveGray),
+              placeholderStyle: const TextStyle(fontSize: 14, color: CupertinoColors.inactiveGray),
               backgroundColor: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              onChanged: onSearch,
             )),
         SingleChildScrollView(
             child: Column(
@@ -93,7 +113,7 @@ class _MarketsScreenState extends State<MarketsScreen> {
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24)),
                 margin: const EdgeInsets.only(top: 8, left: 8, right: 8),
                 padding: const EdgeInsets.only(top: 16, left: 20, right: 8),
-                child: Column(children: assets.map((e) => AssetView(asset: e)).toList()))
+                child: Column(children: filteredAssets.map((e) => AssetView(asset: e)).toList()))
           ],
         ))
       ]),
