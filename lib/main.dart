@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nfstock_test/common/constants.dart';
 import 'package:nfstock_test/common/strings.dart';
+import 'package:nfstock_test/services/currency_service.dart';
+import 'package:nfstock_test/widgets/asset_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +35,7 @@ class MarketsScreen extends StatefulWidget {
 
 class _MarketsScreenState extends State<MarketsScreen> {
   String selectedButton = "all";
+  final assets = AssetsService().getAssets();
 
   Color getButtonColor(String type) => selectedButton == type ? Constants.primaryColor : Colors.white54;
 
@@ -85,7 +88,12 @@ class _MarketsScreenState extends State<MarketsScreen> {
                 selectedColor: Colors.white,
                 borderColor: Colors.white,
               ),
-            )
+            ),
+            Container(
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24)),
+                margin: const EdgeInsets.only(top: 8, left: 8, right: 8),
+                padding: const EdgeInsets.only(top: 16, left: 20, right: 8),
+                child: Column(children: assets.map((e) => AssetView(asset: e)).toList()))
           ],
         ))
       ]),
