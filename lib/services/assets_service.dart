@@ -1,3 +1,5 @@
+import 'package:nfstock_test/models/asset.dart';
+
 class AssetsService {
   List<Asset> getAssets() => [
         Asset(id: 0, tag: 'USDT', name: 'Tether', iconName: 'tether', price: 0.92761),
@@ -16,15 +18,4 @@ class AssetsService {
   removeFavorite(int assetId) {
     favoriteAssetIds.removeWhere((element) => element == assetId);
   }
-}
-
-class Asset {
-  int id;
-  String tag;
-  String name;
-  String iconName;
-  double price;
-  String difference;
-
-  Asset({this.id = 0, required this.tag, this.name = '', this.iconName = '', this.price = 0.0, this.difference = ''});
 }

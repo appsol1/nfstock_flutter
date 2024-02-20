@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:nfstock_test/services/assets_service.dart';
+import 'package:nfstock_test/models/asset.dart';
 
 class AssetView extends StatelessWidget {
   final Asset asset;
