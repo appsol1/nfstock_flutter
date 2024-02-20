@@ -26,10 +26,12 @@ class _MarketsScreenState extends State<MarketsScreen> {
     final query = value.toLowerCase();
     setState(() {
       filteredAssets = value.isEmpty
-          ? allAssets
-          : allAssets
-              .where((element) =>
-                  element.tag.toLowerCase().startsWith(query) || element.name.toLowerCase().startsWith(query))
+          ? selectedButton == 'all'
+              ? allAssets
+              : favoriteAssets
+          : filteredAssets
+              .where(
+                  (element) => element.tag.toLowerCase().contains(query) || element.name.toLowerCase().contains(query))
               .toList();
     });
   }
