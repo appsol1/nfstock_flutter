@@ -30,10 +30,17 @@ class _MarketsScreenState extends State<MarketsScreen> {
           ? selectedButton == 'all'
               ? allAssets
               : favoriteAssets
-          : filteredAssets
+          : (selectedButton == 'all' ? allAssets : favoriteAssets)
               .where(
                   (element) => element.tag.toLowerCase().contains(query) || element.name.toLowerCase().contains(query))
               .toList();
+    });
+  }
+
+  fetchFavorites() async {
+    await AssetsService().initFavorites();
+    setState(() {
+      favAssetIds = AssetsService.favoriteAssetIds;
     });
   }
 
@@ -41,6 +48,7 @@ class _MarketsScreenState extends State<MarketsScreen> {
   void initState() {
     super.initState();
     filteredAssets = allAssets;
+    fetchFavorites();
   }
 
   @override

@@ -1,6 +1,15 @@
+import 'package:nfstock_test/common/constants.dart';
 import 'package:nfstock_test/models/asset.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AssetsService {
+  static List<int> favoriteAssetIds = [];
+
+  initFavorites() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    favoriteAssetIds = prefs.getStringList(Constants.favoritesStorageKey)?.map((e) => int.parse(e)).toList() ?? [];
+  }
+
   List<Asset> getAssets() => [
         Asset(id: 0, tag: 'USDT', name: 'Tether', iconName: 'tether', price: 0.92761),
         Asset(id: 1, tag: 'BTC', name: 'Bitcoin', iconName: 'bitcoin', price: 27448.70),
@@ -9,13 +18,18 @@ class AssetsService {
         Asset(id: 4, tag: 'AAPL', name: 'Apple', iconName: 'apple14', price: 1021.40)
       ];
 
-  static List<int> favoriteAssetIds = [];
-
   markAsFavorite(int assetId) {
     favoriteAssetIds.add(assetId);
+    updateFavoritesStorage();
   }
 
   removeFavorite(int assetId) {
     favoriteAssetIds.removeWhere((element) => element == assetId);
+    updateFavoritesStorage();
+  }
+
+  updateFavoritesStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(Constants.favoritesStorageKey, favoriteAssetIds.map((e) => e.toString()).toList());
   }
 }
